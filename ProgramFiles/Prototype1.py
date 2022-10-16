@@ -42,7 +42,7 @@ def OpenPDF():
 #Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 #''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 def TextEditor(string):
-    return null
+    return 
 
 
 #Convert edited text to mp3
