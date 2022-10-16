@@ -1,4 +1,4 @@
-import gTTS
+from gtts import gTTS
 print('Imported Text-to-Speech')
 import PyPDF2
 print('Imported PDF-to-Text')
@@ -9,12 +9,12 @@ from PyPDF2 import PdfReader
 
 
 #UI Code (Takes all user inputs and calls below functions)
-app = wx.App()
+# app = wx.App()
 
-frame = wx.Frame(None, title='Prototype')
-frame.Show()
+# frame = wx.Frame(None, title='Prototype')
+# frame.Show()
 
-app.MainLoop()
+# app.MainLoop()
 
 #Open PDF/Read Text
 

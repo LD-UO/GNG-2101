@@ -5,9 +5,6 @@ print('Imported PDF-to-Text')
 import wx
 print('Imported GUI Handler')
 
-from PyPDF2 import PdfReader
-
-
 #UI Code (Takes all user inputs and calls below functions)
 app = wx.App()
 
@@ -37,8 +34,7 @@ def OpenPDF():
 #Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 #''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 def TextEditor(string):
-    return null
-
+    return 
 
 #Convert edited text to mp3
 
@@ -48,6 +44,6 @@ def TextEditor(string):
 #Description: Convert Strings to multiple audio files
 #''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 def AudioConvert():
-    return null
+    return 
 
 
