@@ -17,15 +17,15 @@ app.MainLoop()
 #Open PDF/Read Text
 def OpenPDF():
     
-
+    return null
 
 #Organize text and dump to txt for edits
 def TextEditor():
-    
+    return null
 
 
 #Convert edited text to mp3
 def AudioConvert():
-    
+    return null
 
 
