@@ -39,7 +39,7 @@ print(OpenPDF("test.pdf"))
 # Organize text and dump to txt for edits
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-# Inputs: Array/String from OpenPDF()
+# Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
 # Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
