@@ -44,7 +44,7 @@ print(OpenPDF("test.pdf"))
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
-def TextEditor(string):
+def TextEditor(arrayOfPages):
     return
 
 
