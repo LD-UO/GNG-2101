@@ -36,7 +36,6 @@ def OpenPDF(fileName):
     return arrayOfPages
 
 print(OpenPDF("test.pdf"))
-# Organize text and dump to txt for edits
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
