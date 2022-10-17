@@ -19,24 +19,23 @@ print('Imported GUI Handler')
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Location of PDF and PDF File
-# Outputs: Text from pdf in array of strings
+# Outputs: Array of Strings, each element corresponds to one page from the pdf
 # Description: Opens PDF from specified location, reads text and returns it
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 def OpenPDF(fileName):
     reader = PdfReader(fileName)
 
-    returnValue = ""
-        
+    arrayOfPages = []
+
     for page in reader.pages:
-        returnValue += page.extract_text()
+        # to select text orientation
+        # page.extract_text(0)
 
-# to select text orientation
-# page.extract_text(0)
+        arrayOfPages.append(page.extract_text())
 
-# returns one long string of all text
-    return returnValue
+    return arrayOfPages
 
-print(OpenPDF("example.pdf"))
+print(OpenPDF("test.pdf"))
 # Organize text and dump to txt for edits
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
