@@ -1,6 +1,7 @@
 from PyPDF2 import PdfReader
 import wx
 import PyPDF2
+import time
 from gtts import gTTS
 print('Imported Text-to-Speech')
 print('Imported PDF-to-Text')
@@ -35,8 +36,9 @@ def OpenPDF(fileName):
 
     return arrayOfPages
 
-print(OpenPDF("test.pdf"))
-
+startTime = time.time()
+print(OpenPDF("test-textbook.pdf"))
+print("Time to process: "+time.time()-startTime)
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
