@@ -37,8 +37,8 @@ def OpenPDF(fileName):
     return arrayOfPages
 
 startTime = time.time()
-print(OpenPDF("test-textbook.pdf"))
-print("Time to process: "+time.time()-startTime)
+print(OpenPDF("test.pdf"))
+print("Time to process: "+(str)(time.time()-startTime))
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
