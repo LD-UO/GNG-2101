@@ -36,18 +36,24 @@ def OpenPDF(fileName):
 
     return arrayOfPages
 
-startTime = time.time()
-print(OpenPDF("test.pdf"))
-print("Time to process: "+(str)(time.time()-startTime))
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
 # Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+def toTextEditor(arrayOfPages):
+    file = open("outputText.txt","w")
+    for page in arrayOfPages:
+        try:
+            file.write(page)
+        except:
+            continue
 
-def TextEditor(arrayOfPages):
-    return
+
+startTime = time.time()
+toTextEditor(OpenPDF("test-textbook.pdf"))
+print("Time to write: "+(str)(time.time()-startTime))
 
 
 # Convert edited text to mp3
