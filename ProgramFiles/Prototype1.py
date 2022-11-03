@@ -55,7 +55,6 @@ startTime = time.time()
 toTextEditor(OpenPDF("test-textbook.pdf"))
 print("Time to write: "+(str)(time.time()-startTime))
 
-
 # Convert edited text to mp3
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -63,5 +62,10 @@ print("Time to write: "+(str)(time.time()-startTime))
 # Output: Audio file(s)
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-def AudioConvert():
-    return
+def AudioConvert(arrayOfStrings):
+    for page in range(arrayOfStrings.size()):
+        textToSpeech = gTTS(text=page,lang='en')
+        textToSpeech.save(f"{page}.mp3")
+
+AudioConvert(OpenPDF("outputText.txt"))
+    
