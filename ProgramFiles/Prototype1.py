@@ -52,7 +52,7 @@ def toTextEditor(arrayOfPages):
 
 
 startTime = time.time()
-toTextEditor(OpenPDF("test-textbook.pdf"))
+toTextEditor(OpenPDF("test.pdf"))
 print("Time to write: "+(str)(time.time()-startTime))
 
 # Convert edited text to mp3
