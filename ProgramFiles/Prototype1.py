@@ -75,6 +75,7 @@ def AudioConvert(arrayOfStrings):
         
         textToSpeech.save(f"{page}.mp3")
 
+stringArray=OpenPDF("test.pdf")
 startTime = time.time()
-AudioConvert(OpenPDF("test.pdf"))
+AudioConvert(stringArray)
 print("Time to create mp3: "+(str)(time.time()-startTime))
