@@ -36,6 +36,10 @@ def OpenPDF(fileName):
 
     return arrayOfPages
 
+startTime = time.time()
+print(OpenPDF("test.pdf"))
+print("Time to read file: "+(str)(time.time()-startTime))
+
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
@@ -63,9 +67,14 @@ print("Time to write: "+(str)(time.time()-startTime))
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 def AudioConvert(arrayOfStrings):
-    for page in range(arrayOfStrings.size()):
-        textToSpeech = gTTS(text=page,lang='en')
+    for page in range(len(arrayOfStrings)):
+        try:
+            textToSpeech = gTTS(text=arrayOfStrings[page],lang='en')
+        except:
+            print("Please connect to internet to convert to audio")
+        
         textToSpeech.save(f"{page}.mp3")
 
-AudioConvert(OpenPDF("outputText.txt"))
-    
+startTime = time.time()
+AudioConvert(OpenPDF("test.pdf"))
+print("Time to create mp3: "+(str)(time.time()-startTime))
