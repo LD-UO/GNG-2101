@@ -156,7 +156,7 @@ def toTextEditor(arrayOfPages):
     file = open("outputText.txt","w")
     for page in arrayOfPages:
         try:
-            file.write(page)
+            file.write(page+"<page>")
         except:
             continue
 
@@ -165,7 +165,26 @@ startTime = time.time()
 toTextEditor(OpenPDF("test.pdf"))
 print("Time to write: "+(str)(time.time()-startTime))
 
-# Convert edited text to mp3
+# Convert edited text to array of strings
+
+# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+# Input: file name
+# Output: array of strings
+# Description: Convert formatted text files into formatted array of strings
+# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+def fromTextEditor(fileName):
+    file = open(fileName,"r")
+    # will need to move replace once page fuctionallity is added
+    data = file.read().replace("<page>","")
+    # <page> is used to denote end of pages
+    # TODO: insert chapters by number of pages
+
+    # <chapter> is used to denote end of chapters
+    stringList = data.split("<chapter>")
+    return stringList
+
+# Convert array of strings to mp3
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Input: String/Array + Location for outputs
