@@ -3,10 +3,6 @@ import wx
 import PyPDF2
 import time
 from gtts import gTTS
-print('Imported Text-to-Speech')
-print('Imported PDF-to-Text')
-print('Imported GUI Handler')
-
 
 # UI Code (Takes all user inputs and calls below functions)
 import wx
@@ -142,28 +138,19 @@ def OpenPDF(fileName):
 
     return arrayOfPages
 
-startTime = time.time()
-#print(OpenPDF("test.pdf"))
-print("Time to read file: "+(str)(time.time()-startTime))
-
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
 # Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-def toTextEditor(arrayOfPages):
-    file = open("outputText.txt","w")
+def toTextEditor(arrayOfPages,outputFileLocation):
+    file = open(outputFileLocation,"w")
     for page in arrayOfPages:
         try:
             file.write(page+"<page>")
         except:
             continue
-
-
-startTime = time.time()
-toTextEditor(OpenPDF("test.pdf"))
-print("Time to write: "+(str)(time.time()-startTime))
 
 # Convert edited text to array of strings
 
@@ -175,7 +162,7 @@ print("Time to write: "+(str)(time.time()-startTime))
 
 def fromTextEditor(fileName):
     file = open(fileName,"r")
-    # will need to move replace once page fuctionallity is added
+    # TODO: will need to move replace once page fuctionallity is added
     data = file.read().replace("<page>","")
     # <page> is used to denote end of pages
     # TODO: insert chapters by number of pages
@@ -191,16 +178,15 @@ def fromTextEditor(fileName):
 # Output: Audio file(s)
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-def AudioConvert(arrayOfStrings):
+def AudioConvert(arrayOfStrings,outputFileLocation):
     for page in range(len(arrayOfStrings)):
         try:
             textToSpeech = gTTS(text=arrayOfStrings[page],lang='en')
         except:
             print("Please connect to internet to convert to audio")
         
-        textToSpeech.save(f"{page}.mp3")
+        textToSpeech.save(outputFileLocation+"{page}.mp3")
 
-stringArray=OpenPDF("test.pdf")
-startTime = time.time()
-AudioConvert(stringArray)
-print("Time to create mp3: "+(str)(time.time()-startTime))
+toTextEditor(OpenPDF("test.pdf"),"outputFileName.txt")
+AudioConvert(fromTextEditor("outputFileName.txt"),"outputAudioFile")
+
