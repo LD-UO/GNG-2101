@@ -33,23 +33,28 @@ class MainW(wx.Frame):
         sizer_3 = wx.WrapSizer(wx.HORIZONTAL)
         sizer_2.Add(sizer_3, 0, 0, 0)
 
-        PDFLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Input File:     "))
+        PDFLabel = wx.StaticText(
+            self.MainPanel, wx.ID_ANY, _("Input File:     "))
         sizer_3.Add(PDFLabel, 1, wx.ALL, 1)
 
-        self.SelectFile = wx.Button(self.MainPanel, wx.ID_ANY, _("Select File"))
+        self.SelectFile = wx.Button(
+            self.MainPanel, wx.ID_ANY, _("Select File"))
         sizer_3.Add(self.SelectFile, 0, 0, 0)
 
-        label_3 = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Program Language:  "))
+        label_3 = wx.StaticText(
+            self.MainPanel, wx.ID_ANY, _("Program Language:  "))
         sizer_3.Add(label_3, 0, wx.LEFT, 30)
 
-        self.ProgramLanguage = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
+        self.ProgramLanguage = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[
+                                         _("English"), _("French")])
         self.ProgramLanguage.SetSelection(0)
         sizer_3.Add(self.ProgramLanguage, 0, wx.LEFT, 10)
 
         sizer_4 = wx.BoxSizer(wx.VERTICAL)
         sizer_2.Add(sizer_4, 1, wx.ALL | wx.EXPAND, 0)
 
-        EditLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Edit Output Here:"))
+        EditLabel = wx.StaticText(
+            self.MainPanel, wx.ID_ANY, _("Edit Output Here:"))
         sizer_4.Add(EditLabel, 0, wx.BOTTOM | wx.TOP, 7)
 
         sizer_8 = wx.BoxSizer(wx.HORIZONTAL)
@@ -60,14 +65,16 @@ class MainW(wx.Frame):
         label_4 = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Page Number:  "))
         sizer_8.Add(label_4, 0, wx.LEFT | wx.RIGHT, 20)
 
-        self.PageNumberSelect = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("1"), _("2"), _("3")])
+        self.PageNumberSelect = wx.Choice(
+            self.MainPanel, wx.ID_ANY, choices=[_("1"), _("2"), _("3")])
         self.PageNumberSelect.SetSelection(0)
         sizer_8.Add(self.PageNumberSelect, 0, wx.BOTTOM, 10)
 
         grid_sizer_1 = wx.GridSizer(1, 1, 0, 0)
         sizer_4.Add(grid_sizer_1, 1, wx.EXPAND, 0)
 
-        self.TextEditBox = wx.TextCtrl(self.MainPanel, wx.ID_ANY, _("kcxljvx \naskdljf\nasjd\nfajsdfj\nadjfa\njdf\nadfj\nadsjf\nadfj"), style=wx.TE_MULTILINE)
+        self.TextEditBox = wx.TextCtrl(self.MainPanel, wx.ID_ANY, _(
+            "kcxljvx \naskdljf\nasjd\nfajsdfj\nadjfa\njdf\nadfj\nadsjf\nadfj"), style=wx.TE_MULTILINE)
         grid_sizer_1.Add(self.TextEditBox, 0, wx.EXPAND, 0)
 
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
@@ -76,19 +83,23 @@ class MainW(wx.Frame):
         sizer_6 = wx.WrapSizer(wx.HORIZONTAL)
         sizer_5.Add(sizer_6, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
 
-        OutputLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Choose Output Location:  "))
+        OutputLabel = wx.StaticText(
+            self.MainPanel, wx.ID_ANY, _("Choose Output Location:  "))
         sizer_6.Add(OutputLabel, 0, 0, 0)
 
-        self.SelectFolder = wx.Button(self.MainPanel, wx.ID_ANY, _("Select Folder"))
+        self.SelectFolder = wx.Button(
+            self.MainPanel, wx.ID_ANY, _("Select Folder"))
         sizer_6.Add(self.SelectFolder, 0, 0, 0)
 
         sizer_7 = wx.WrapSizer(wx.HORIZONTAL)
         sizer_5.Add(sizer_7, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
 
-        OutputLanguage = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Choose Output Language:  "))
+        OutputLanguage = wx.StaticText(
+            self.MainPanel, wx.ID_ANY, _("Choose Output Language:  "))
         sizer_7.Add(OutputLanguage, 0, 0, 0)
 
-        self.OutputLanguageChoice = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
+        self.OutputLanguageChoice = wx.Choice(
+            self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
         self.OutputLanguageChoice.SetSelection(0)
         sizer_7.Add(self.OutputLanguageChoice, 0, 0, 0)
 
@@ -102,6 +113,7 @@ class MainW(wx.Frame):
 
 # end of class MainW
 
+
 class GUIAudioConverter(wx.App):
     def OnInit(self):
         self.MainWindow = MainW(None, wx.ID_ANY, "")
@@ -111,8 +123,10 @@ class GUIAudioConverter(wx.App):
 
 # end of class GUIAudioConverter
 
+
 if __name__ == "__main__":
-    gettext.install("AudioConverter") # replace with the appropriate catalog name
+    # replace with the appropriate catalog name
+    gettext.install("AudioConverter")
 
     AudioConverter = GUIAudioConverter(0)
     AudioConverter.MainLoop()
@@ -144,8 +158,9 @@ def OpenPDF(fileName):
 # Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-def toTextEditor(arrayOfPages,outputFileLocation):
-    file = open(outputFileLocation,"w")
+
+def toTextEditor(arrayOfPages, outputFileLocation):
+    file = open(outputFileLocation, "w")
     for page in arrayOfPages:
         try:
             file.write(page+"<page>")
@@ -160,16 +175,31 @@ def toTextEditor(arrayOfPages,outputFileLocation):
 # Description: Convert formatted text files into formatted array of strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-def fromTextEditor(fileName):
-    file = open(fileName,"r")
-    # TODO: will need to move replace once page fuctionallity is added
-    data = file.read().replace("<page>","")
-    # <page> is used to denote end of pages
-    # TODO: insert chapters by number of pages
+
+def fromTextEditor(fileName, pagesPerChapter):
+    file = open(fileName, "r")
+    data = file.read()
+
+    stringList = data.split("<page>")
+    data2 = ""
+    
+    for i in range(len(stringList)):
+        if ((i+1) % pagesPerChapter == 0):
+            stringList[i]+="<chapter>"
+        data2+=stringList[i]
 
     # <chapter> is used to denote end of chapters
-    stringList = data.split("<chapter>")
-    return stringList
+
+    stringList2 = data2.split("<chapter>")
+
+    while stringList2.count(""):
+        stringList2.remove("")
+    print(stringList2)
+
+    for i in stringList2:
+        i.strip()
+        
+    return stringList2
 
 # Convert array of strings to mp3
 
@@ -178,15 +208,17 @@ def fromTextEditor(fileName):
 # Output: Audio file(s)
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-def AudioConvert(arrayOfStrings,outputFileLocation):
-    for page in range(len(arrayOfStrings)):
+
+
+def AudioConvert(arrayOfStrings, outputFileLocation):
+    for chapter in range(len(arrayOfStrings)):
         try:
-            textToSpeech = gTTS(text=arrayOfStrings[page],lang='en')
+            textToSpeech = gTTS(text=arrayOfStrings[chapter], lang='en')
         except:
             print("Please connect to internet to convert to audio")
-        
-        textToSpeech.save(outputFileLocation+"{page}.mp3")
 
-toTextEditor(OpenPDF("test.pdf"),"outputFileName.txt")
-AudioConvert(fromTextEditor("outputFileName.txt"),"outputAudioFile")
+        textToSpeech.save(outputFileLocation+str(chapter)+".mp3")
 
+
+toTextEditor(OpenPDF("test.pdf"), "outputFileName.txt")
+AudioConvert(fromTextEditor("outputFileName.txt",3), "outputAudioFile")

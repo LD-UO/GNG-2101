@@ -1,3 +1,0 @@
-Test1 
-  <page>Test2 
-  <page>Test3 <page>
