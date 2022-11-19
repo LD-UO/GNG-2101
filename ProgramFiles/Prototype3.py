@@ -139,7 +139,7 @@ if __name__ == "__main__":
 # Outputs: Array of Strings, each element corresponds to one page from the pdf
 # Description: Opens PDF from specified location, reads text and returns it
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-def OpenPDF(fileName):
+def openPDF(fileName):
     reader = PdfReader(fileName)
 
     arrayOfPages = []
@@ -160,7 +160,7 @@ def OpenPDF(fileName):
 
 
 def toTextEditor(arrayOfPages, outputFileLocation):
-    file = open(outputFileLocation, "w")
+    file = open(outputFileLocation+".txt", "w")
     for page in arrayOfPages:
         try:
             file.write(page+"<page>")
@@ -177,7 +177,7 @@ def toTextEditor(arrayOfPages, outputFileLocation):
 
 
 def fromTextEditor(fileName, pagesPerChapter):
-    file = open(fileName, "r")
+    file = open(fileName+".txt", "r")
     data = file.read()
 
     stringList = data.split("<page>")
@@ -210,7 +210,7 @@ def fromTextEditor(fileName, pagesPerChapter):
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
-def AudioConvert(arrayOfStrings, outputFileLocation):
+def audioConvert(arrayOfStrings, outputFileLocation):
     for chapter in range(len(arrayOfStrings)):
         try:
             textToSpeech = gTTS(text=arrayOfStrings[chapter], lang='en')
@@ -220,5 +220,5 @@ def AudioConvert(arrayOfStrings, outputFileLocation):
         textToSpeech.save(outputFileLocation+str(chapter)+".mp3")
 
 
-toTextEditor(OpenPDF("test.pdf"), "outputFileName.txt")
-AudioConvert(fromTextEditor("outputFileName.txt",3), "outputAudioFile")
+toTextEditor(openPDF("test.pdf"), "outputFileName")
+audioConvert(fromTextEditor("outputFileName",3), "outputAudioFile")
