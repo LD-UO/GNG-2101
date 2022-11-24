@@ -161,6 +161,7 @@ def openPDF(fileName):
 
 def toTextEditor(arrayOfPages, outputFileLocation):
     file = open(outputFileLocation+".txt", "w")
+    file.write() 
     for page in arrayOfPages:
         try:
             file.write(page+"<page>")
@@ -220,5 +221,5 @@ def audioConvert(arrayOfStrings, outputFileLocation):
         textToSpeech.save(outputFileLocation+str(chapter)+".mp3")
 
 
-toTextEditor(openPDF("test.pdf"), "outputFileName")
+toTextEditor(openPDF("test-textbook.pdf"), "outputFileName")
 audioConvert(fromTextEditor("outputFileName",3), "outputAudioFile")
