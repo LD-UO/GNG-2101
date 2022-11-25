@@ -140,7 +140,7 @@ if __name__ == "__main__":
 # Description: Opens PDF from specified location, reads text and returns it
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 def openPDF(fileName):
-    reader = PdfReader(fileName)
+    reader = PdfReader(fileName+".pdf")
 
     arrayOfPages = []
 
@@ -152,13 +152,23 @@ def openPDF(fileName):
 
     return arrayOfPages
 
+# Open Txt/Read Text
+
+# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+# Inputs: Location of TXT File
+# Outputs: Array of Strings of length 1 with text from the txt doc
+# Description: Opens TXT from specified location, reads text and returns it
+# ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+def openTXT(fileName):
+    file = open(fileName+".txt", "r")
+    data = file.read()
+    return data
+
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
 # Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
 def toTextEditor(arrayOfPages, outputFileLocation):
     file = open(outputFileLocation+".txt", "w")
     file.write() 
@@ -175,11 +185,8 @@ def toTextEditor(arrayOfPages, outputFileLocation):
 # Output: array of strings
 # Description: Convert formatted text files into formatted array of strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
 def fromTextEditor(fileName, pagesPerChapter):
-    file = open(fileName+".txt", "r")
-    data = file.read()
+    data = openTXT(fileName)
 
     stringList = data.split("<page>")
     data2 = ""
@@ -209,8 +216,6 @@ def fromTextEditor(fileName, pagesPerChapter):
 # Output: Audio file(s)
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
 def audioConvert(arrayOfStrings, outputFileLocation):
     for chapter in range(len(arrayOfStrings)):
         try:
@@ -221,5 +226,5 @@ def audioConvert(arrayOfStrings, outputFileLocation):
         textToSpeech.save(outputFileLocation+str(chapter)+".mp3")
 
 
-toTextEditor(openPDF("test-textbook.pdf"), "outputFileName")
+toTextEditor(openTXT("test"), "outputFileName")
 audioConvert(fromTextEditor("outputFileName",3), "outputAudioFile")
