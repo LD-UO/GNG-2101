@@ -159,25 +159,36 @@ def openPDF(fileName):
 # Outputs: Array of Strings of length 1 with text from the txt doc
 # Description: Opens TXT from specified location, reads text and returns it
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
 def openTXT(fileName):
     file = open(fileName+".txt", "r")
     data = file.read()
-    return data
+    result = ""
+    for e in data:
+        result+=e
+    return result
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
 # Outputs: String/Array ready to send to Audio Convert
 # Description: Organizes text (by chapter), exports to txt, allows user edits, reads txt and returns edited strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
 def toTextEditor(arrayOfPages, outputFileLocation):
     file = open(outputFileLocation+".txt", "w")
-    file.write() 
+    file.write("********************************************** DO NOT REMOVE THIS HEADER **********************************************\n"
+               + "You may use the service and the contents contained in these services for your own individual non-commercial purpose only.\n"
+               + "Any other use, is strictly prohibited without the permission of the work's  publisher.\n"
+               + "Vous pouvez utiliser le service et le contenu de ces services à des fins personnelles et non commerciales uniquement.\n"
+               + "Toute autre utilisation est strictement interdite sans l'autorisation de l'éditeur.\n"
+               + "<chapter>\n")
     for page in arrayOfPages:
         try:
             file.write(page+"<page>")
         except:
             continue
-
 # Convert edited text to array of strings
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -185,16 +196,18 @@ def toTextEditor(arrayOfPages, outputFileLocation):
 # Output: array of strings
 # Description: Convert formatted text files into formatted array of strings
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
 def fromTextEditor(fileName, pagesPerChapter):
     data = openTXT(fileName)
 
     stringList = data.split("<page>")
     data2 = ""
-    
+
     for i in range(len(stringList)):
         if ((i+1) % pagesPerChapter == 0):
-            stringList[i]+="<chapter>"
-        data2+=stringList[i]
+            stringList[i] += "<chapter>"
+        data2 += stringList[i]
 
     # <chapter> is used to denote end of chapters
 
@@ -206,8 +219,8 @@ def fromTextEditor(fileName, pagesPerChapter):
 
     for i in stringList2:
         i.strip()
-        
-    return stringList2
+
+    return stringList2[1:]
 
 # Convert array of strings to mp3
 
@@ -216,6 +229,8 @@ def fromTextEditor(fileName, pagesPerChapter):
 # Output: Audio file(s)
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
 def audioConvert(arrayOfStrings, outputFileLocation):
     for chapter in range(len(arrayOfStrings)):
         try:
@@ -225,6 +240,9 @@ def audioConvert(arrayOfStrings, outputFileLocation):
 
         textToSpeech.save(outputFileLocation+str(chapter)+".mp3")
 
+for page in openTXT("test"):
+    print(page+",")
 
 toTextEditor(openTXT("test"), "outputFileName")
-audioConvert(fromTextEditor("outputFileName",3), "outputAudioFile")
+print(fromTextEditor)
+audioConvert(fromTextEditor("outputFileName", 3), "outputAudioFile")
