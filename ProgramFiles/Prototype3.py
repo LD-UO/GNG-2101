@@ -164,10 +164,9 @@ def openPDF(fileName):
 def openTXT(fileName):
     file = open(fileName+".txt", "r")
     data = file.read()
-    result = ""
-    for e in data:
-        result+=e
-    return result
+    pages = []
+    pages.append(data)
+    return pages
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 # Inputs: Array of String from OpenPDF()
@@ -178,12 +177,12 @@ def openTXT(fileName):
 
 def toTextEditor(arrayOfPages, outputFileLocation):
     file = open(outputFileLocation+".txt", "w")
-    file.write("********************************************** DO NOT REMOVE THIS HEADER **********************************************\n"
+    file.write("********************************************** DO NOT REMOVE THIS HEADER **************************************************\n"
                + "You may use the service and the contents contained in these services for your own individual non-commercial purpose only.\n"
                + "Any other use, is strictly prohibited without the permission of the work's  publisher.\n"
                + "Vous pouvez utiliser le service et le contenu de ces services à des fins personnelles et non commerciales uniquement.\n"
                + "Toute autre utilisation est strictement interdite sans l'autorisation de l'éditeur.\n"
-               + "<chapter>\n")
+               + "****************************************************************************************************************<chapter>\n")
     for page in arrayOfPages:
         try:
             file.write(page+"<page>")
@@ -205,7 +204,7 @@ def fromTextEditor(fileName, pagesPerChapter):
     data2 = ""
 
     for i in range(len(stringList)):
-        if ((i+1) % pagesPerChapter == 0):
+        if ((i) % pagesPerChapter == 0):
             stringList[i] += "<chapter>"
         data2 += stringList[i]
 
@@ -215,7 +214,7 @@ def fromTextEditor(fileName, pagesPerChapter):
 
     while stringList2.count(""):
         stringList2.remove("")
-    print(stringList2)
+    # print(stringList2)
 
     for i in stringList2:
         i.strip()
@@ -240,9 +239,7 @@ def audioConvert(arrayOfStrings, outputFileLocation):
 
         textToSpeech.save(outputFileLocation+str(chapter)+".mp3")
 
-for page in openTXT("test"):
-    print(page+",")
-
-toTextEditor(openTXT("test"), "outputFileName")
-print(fromTextEditor)
-audioConvert(fromTextEditor("outputFileName", 3), "outputAudioFile")
+print(openTXT("test"))
+# toTextEditor(openTXT("test"), "outputFileName")
+# print(fromTextEditor("outputFileName", 3))
+# audioConvert(fromTextEditor("outputFileName", 3), "outputAudioFile")
