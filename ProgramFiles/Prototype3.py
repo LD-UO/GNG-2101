@@ -200,7 +200,7 @@ def toTextEditor(arrayOfPages, outputFileLocation):
 def fromTextEditor(fileName, pagesPerChapter):
     data = openTXT(fileName)
 
-    stringList = data.split("<page>")
+    stringList = data[0].split("<page>")
     data2 = ""
 
     for i in range(len(stringList)):
@@ -224,7 +224,7 @@ def fromTextEditor(fileName, pagesPerChapter):
 # Convert array of strings to mp3
 
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-# Input: String/Array + Location for outputs
+# Input: String Array + Location for outputs
 # Output: Audio file(s)
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -237,9 +237,7 @@ def audioConvert(arrayOfStrings, outputFileLocation):
         except:
             print("Please connect to internet to convert to audio")
 
-        textToSpeech.save(outputFileLocation+str(chapter)+".mp3")
+        textToSpeech.save(outputFileLocation+str(chapter+1)+".mp3")
 
-print(openTXT("test"))
-# toTextEditor(openTXT("test"), "outputFileName")
-# print(fromTextEditor("outputFileName", 3))
-# audioConvert(fromTextEditor("outputFileName", 3), "outputAudioFile")
+toTextEditor(openTXT("test"), "outputFileName")
+audioConvert(fromTextEditor("outputFileName", 5), "outputAudioFile")
