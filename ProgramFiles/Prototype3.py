@@ -1,135 +1,29 @@
 from PyPDF2 import PdfReader
 import wx
+import tkinter as tk
+from tkinter import filedialog
 import PyPDF2
 import time
 from gtts import gTTS
 
 # UI Code (Takes all user inputs and calls below functions)
-import wx
+import sys
+import os.path
 
 # begin wxGlade: dependencies
 import gettext
 # end wxGlade
 
-# begin wxGlade: extracode
-# end wxGlade
+# setupvalues
+ProgLang = "English"
+OutputLangNum = 0
+OutputLang = 'en'  
+EditPageNum = "1"
+InputFileName = "Default.pdf"
+OutputFileLocation = "C"
+TextFileName = "test.txt"
 
 
-class MainW(wx.Frame):
-    def __init__(self, *args, **kwds):
-        # begin wxGlade: MainW.__init__
-        kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_FRAME_STYLE
-        wx.Frame.__init__(self, *args, **kwds)
-        self.SetSize((503, 385))
-        self.SetTitle(_("frame"))
-
-        self.MainPanel = wx.Panel(self, wx.ID_ANY)
-
-        sizer_1 = wx.BoxSizer(wx.VERTICAL)
-
-        sizer_2 = wx.BoxSizer(wx.VERTICAL)
-        sizer_1.Add(sizer_2, 1, wx.ALL | wx.EXPAND, 15)
-
-        sizer_3 = wx.WrapSizer(wx.HORIZONTAL)
-        sizer_2.Add(sizer_3, 0, 0, 0)
-
-        PDFLabel = wx.StaticText(
-            self.MainPanel, wx.ID_ANY, _("Input File:     "))
-        sizer_3.Add(PDFLabel, 1, wx.ALL, 1)
-
-        self.SelectFile = wx.Button(
-            self.MainPanel, wx.ID_ANY, _("Select File"))
-        sizer_3.Add(self.SelectFile, 0, 0, 0)
-
-        label_3 = wx.StaticText(
-            self.MainPanel, wx.ID_ANY, _("Program Language:  "))
-        sizer_3.Add(label_3, 0, wx.LEFT, 30)
-
-        self.ProgramLanguage = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[
-                                         _("English"), _("French")])
-        self.ProgramLanguage.SetSelection(0)
-        sizer_3.Add(self.ProgramLanguage, 0, wx.LEFT, 10)
-
-        sizer_4 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2.Add(sizer_4, 1, wx.ALL | wx.EXPAND, 0)
-
-        EditLabel = wx.StaticText(
-            self.MainPanel, wx.ID_ANY, _("Edit Output Here:"))
-        sizer_4.Add(EditLabel, 0, wx.BOTTOM | wx.TOP, 7)
-
-        sizer_8 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4.Add(sizer_8, 1, wx.EXPAND, 0)
-
-        sizer_8.Add((20, 0), 1, 0, 0)
-
-        label_4 = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Page Number:  "))
-        sizer_8.Add(label_4, 0, wx.LEFT | wx.RIGHT, 20)
-
-        self.PageNumberSelect = wx.Choice(
-            self.MainPanel, wx.ID_ANY, choices=[_("1"), _("2"), _("3")])
-        self.PageNumberSelect.SetSelection(0)
-        sizer_8.Add(self.PageNumberSelect, 0, wx.BOTTOM, 10)
-
-        grid_sizer_1 = wx.GridSizer(1, 1, 0, 0)
-        sizer_4.Add(grid_sizer_1, 1, wx.EXPAND, 0)
-
-        self.TextEditBox = wx.TextCtrl(self.MainPanel, wx.ID_ANY, _(
-            "kcxljvx \naskdljf\nasjd\nfajsdfj\nadjfa\njdf\nadfj\nadsjf\nadfj"), style=wx.TE_MULTILINE)
-        grid_sizer_1.Add(self.TextEditBox, 0, wx.EXPAND, 0)
-
-        sizer_5 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2.Add(sizer_5, 0, wx.EXPAND, 0)
-
-        sizer_6 = wx.WrapSizer(wx.HORIZONTAL)
-        sizer_5.Add(sizer_6, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
-
-        OutputLabel = wx.StaticText(
-            self.MainPanel, wx.ID_ANY, _("Choose Output Location:  "))
-        sizer_6.Add(OutputLabel, 0, 0, 0)
-
-        self.SelectFolder = wx.Button(
-            self.MainPanel, wx.ID_ANY, _("Select Folder"))
-        sizer_6.Add(self.SelectFolder, 0, 0, 0)
-
-        sizer_7 = wx.WrapSizer(wx.HORIZONTAL)
-        sizer_5.Add(sizer_7, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
-
-        OutputLanguage = wx.StaticText(
-            self.MainPanel, wx.ID_ANY, _("Choose Output Language:  "))
-        sizer_7.Add(OutputLanguage, 0, 0, 0)
-
-        self.OutputLanguageChoice = wx.Choice(
-            self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
-        self.OutputLanguageChoice.SetSelection(0)
-        sizer_7.Add(self.OutputLanguageChoice, 0, 0, 0)
-
-        self.button_2 = wx.Button(self.MainPanel, wx.ID_ANY, _("Convert"))
-        sizer_5.Add(self.button_2, 0, wx.EXPAND, 0)
-
-        self.MainPanel.SetSizer(sizer_1)
-
-        self.Layout()
-        # end wxGlade
-
-# end of class MainW
-
-
-class GUIAudioConverter(wx.App):
-    def OnInit(self):
-        self.MainWindow = MainW(None, wx.ID_ANY, "")
-        self.SetTopWindow(self.MainWindow)
-        self.MainWindow.Show()
-        return True
-
-# end of class GUIAudioConverter
-
-
-if __name__ == "__main__":
-    # replace with the appropriate catalog name
-    gettext.install("AudioConverter")
-
-    AudioConverter = GUIAudioConverter(0)
-    AudioConverter.MainLoop()
 
 
 # Open PDF/Read Text
@@ -140,7 +34,7 @@ if __name__ == "__main__":
 # Description: Opens PDF from specified location, reads text and returns it
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 def openPDF(fileName):
-    reader = PdfReader(fileName+".pdf")
+    reader = PdfReader(fileName) #+".pdf"
 
     arrayOfPages = []
 
@@ -162,7 +56,7 @@ def openPDF(fileName):
 
 
 def openTXT(fileName):
-    file = open(fileName+".txt", "r")
+    file = open(fileName, "r")#+".txt"
     data = file.read()
     pages = []
     pages.append(data)
@@ -176,7 +70,7 @@ def openTXT(fileName):
 
 
 def toTextEditor(arrayOfPages, outputFileLocation):
-    file = open(outputFileLocation+".txt", "w")
+    file = open(outputFileLocation, "w") #+".txt"
     file.write("********************************************** DO NOT REMOVE THIS HEADER **************************************************\n"
                + "You may use the service and the contents contained in these services for your own individual non-commercial purpose only.\n"
                + "Any other use, is strictly prohibited without the permission of the work's  publisher.\n"
@@ -229,6 +123,7 @@ def fromTextEditor(fileName, pagesPerChapter):
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+SelectedLanguage = 'en'
 
 def audioConvert(arrayOfStrings, outputFileLocation):
     for chapter in range(len(arrayOfStrings)):
@@ -239,5 +134,214 @@ def audioConvert(arrayOfStrings, outputFileLocation):
 
         textToSpeech.save(outputFileLocation+str(chapter+1)+".mp3")
 
-toTextEditor(openTXT("test"), "outputFileName")
-audioConvert(fromTextEditor("outputFileName", 5), "outputAudioFile")
+# toTextEditor(openTXT("test"), "outputFileName")
+# audioConvert(fromTextEditor("outputFileName", 5), "outputAudioFile")
+
+
+
+
+
+
+
+
+
+
+
+
+
+class MainW(wx.Frame):
+    def __init__(self, *args, **kwds):
+        # begin wxGlade: MainW.__init__
+        kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_FRAME_STYLE
+        wx.Frame.__init__(self, *args, **kwds)
+        self.SetSize((462, 307))
+        self.SetTitle(_("frame"))
+
+        self.MainPanel = wx.Panel(self, wx.ID_ANY)
+
+        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+
+        sizer_2 = wx.BoxSizer(wx.VERTICAL)
+        sizer_1.Add(sizer_2, 1, wx.ALL | wx.EXPAND, 15)
+
+        sizer_3 = wx.WrapSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_3, 0, 0, 0)
+
+        PDFLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Input File:     "))
+        sizer_3.Add(PDFLabel, 1, wx.ALL, 1)
+
+        self.SelectFile = wx.Button(self.MainPanel, wx.ID_ANY, _("Select File"))
+        sizer_3.Add(self.SelectFile, 0, 0, 0)
+
+        label_3 = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Program Language:  "))
+        sizer_3.Add(label_3, 0, wx.LEFT, 30)
+
+        self.ProgramLanguage = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
+        self.ProgramLanguage.SetSelection(0)
+        sizer_3.Add(self.ProgramLanguage, 0, wx.LEFT, 10)
+
+        sizer_4 = wx.BoxSizer(wx.VERTICAL)
+        sizer_2.Add(sizer_4, 1, wx.ALL | wx.EXPAND, 0)
+
+        EditLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Edit Output Here:"))
+        sizer_4.Add(EditLabel, 0, wx.BOTTOM | wx.TOP, 7)
+
+        sizer_8 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_4.Add(sizer_8, 0, wx.EXPAND, 0)
+
+        self.EditPage = wx.Button(self.MainPanel, wx.ID_ANY, _("Edit Selected Page"))
+        sizer_8.Add(self.EditPage, 0, 0, 0)
+
+        label_4 = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Page Number:  "))
+        sizer_8.Add(label_4, 0, wx.LEFT | wx.RIGHT, 20)
+
+        self.PageNumberSelect = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("1"), _("2"), _("3")])
+        self.PageNumberSelect.SetSelection(0)
+        sizer_8.Add(self.PageNumberSelect, 0, wx.BOTTOM, 10)
+
+        sizer_5 = wx.BoxSizer(wx.VERTICAL)
+        sizer_2.Add(sizer_5, 0, wx.EXPAND, 0)
+
+        sizer_6 = wx.WrapSizer(wx.HORIZONTAL)
+        sizer_5.Add(sizer_6, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
+
+        OutputLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Choose Output Location:  "))
+        sizer_6.Add(OutputLabel, 0, 0, 0)
+
+        self.SelectFolder = wx.Button(self.MainPanel, wx.ID_ANY, _("Select Folder"))
+        sizer_6.Add(self.SelectFolder, 0, 0, 0)
+
+        #label_1 = wx.StaticText(self.MainPanel, wx.ID_ANY, _(OutputFileLocation))
+        #sizer_6.Add(label_1, 0, wx.LEFT, 13)
+
+        sizer_7 = wx.WrapSizer(wx.HORIZONTAL)
+        sizer_5.Add(sizer_7, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
+
+        OutputLanguage = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Choose Output Language:  "))
+        sizer_7.Add(OutputLanguage, 0, 0, 0)
+
+        self.OutputLanguageChoice = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
+        self.OutputLanguageChoice.SetSelection(0)
+        sizer_7.Add(self.OutputLanguageChoice, 0, 0, 0)
+
+
+        self.button_2 = wx.Button(self.MainPanel, wx.ID_ANY, _("Convert"))
+        sizer_5.Add(self.button_2, 0, wx.EXPAND, 0)
+
+        self.MainPanel.SetSizer(sizer_1)
+
+        self.Layout()
+
+        self.Bind(wx.EVT_BUTTON, self.SelectFilePress, self.SelectFile)
+        self.Bind(wx.EVT_CHOICE, self.ProgLanguageChange, self.ProgramLanguage)
+        self.Bind(wx.EVT_BUTTON, self.EditPagePressed, self.EditPage)
+        self.Bind(wx.EVT_CHOICE, self.PageSwapped, self.PageNumberSelect)
+        self.Bind(wx.EVT_BUTTON, self.SelectFolderPressed, self.SelectFolder)
+        self.Bind(wx.EVT_CHOICE, self.OutputLanguageChange, self.OutputLanguageChoice)
+        self.Bind(wx.EVT_BUTTON, self.StartConversion, self.button_2)
+        # end wxGlade
+
+    def SelectFilePress(self, event):  # wxGlade: MainW.<event_handler>
+        #print("Event handler 'SelectFilePress' not implemented!")
+        #event.Skip
+        root = tk.Tk()
+        root.withdraw()
+        
+        InputFileName = filedialog.askopenfilename()
+        print(InputFileName)
+        toTextEditor(openPDF(InputFileName), TextFileName)
+        
+
+    def ProgLanguageChange(self, event):  # wxGlade: MainW.<event_handler>
+        print("Event handler 'ProgLanguageChange' not implemented!")
+        event.Skip()
+
+    def EditPagePressed(self, event):  # wxGlade: MainW.<event_handler>
+        #print("Event handler 'EditPagePressed' not implemented!")
+        #event.Skip()
+        os.system("test.txt")
+        
+    def PageSwapped(self, event):  # wxGlade: MainW.<event_handler>
+        print("Event handler 'PageSwapped' not implemented!")
+        event.Skip()
+
+    def SelectFolderPressed(self, event):  # wxGlade: MainW.<event_handler>
+        #print("Event handler 'SelectFolderPressed' not implemented!")
+        #event.Skip()
+        root = tk.Tk()
+        root.withdraw()
+        
+        OutputFileLocation = filedialog.askdirectory()
+        #self.label_1.SetLabel(OutputFileLocation)
+        #label_1 = wx.StaticText(self.MainPanel, wx.ID_ANY, _(OutputFileLocation))
+        #sizer_6.Add(label_1, 0, wx.LEFT, 13)
+
+    def OutputLanguageChange(self, event):  # wxGlade: MainW.<event_handler>
+        #OutputLangNum = OutputLanguageChoice.GetSelection()
+        if OutputLangNum == 0:
+            OutputLang = 'en'
+        else:
+            OutputLang = 'fr'
+
+    def StartConversion(self, event):  # wxGlade: MainW.<event_handler>
+        #print("Event handler 'StartConversion' not implemented!")
+        #event.Skip()
+        audioConvert(fromTextEditor(TextFileName, 5), OutputFileLocation)
+        
+        
+    #-------------------------------------------------------------------------------
+
+    class MyApp(wx.App):
+        """
+        ....
+        """
+        def OnInit(self):
+
+            #------------
+
+            self.installDir = os.path.split(os.path.abspath(sys.argv[0]))[0]
+
+            #------------
+
+            frame = MyFrame()
+            self.SetTopWindow(frame)
+            frame.Show(True)
+
+            return True
+
+        #---------------------------------------------------------------------------
+
+        def GetInstallDir(self):
+            """
+            Returns the installation directory for my application.
+            """
+
+            return self.installDir
+
+
+        def GetIconsDir(self):
+            """
+            Returns the icons directory for my application.
+            """
+
+            icons_dir = os.path.join(self.installDir, "icons")
+            return icons_dir
+
+# end of class MainW
+
+class GUIAudioConverter(wx.App):
+    def OnInit(self):
+        self.MainWindow = MainW(None, wx.ID_ANY, "")
+        self.SetTopWindow(self.MainWindow)
+        self.MainWindow.Show()
+        return True
+
+# end of class GUIAudioConverter
+
+if __name__ == "__main__":
+    gettext.install("AudioConverter") # replace with the appropriate catalog name
+
+    AudioConverter = GUIAudioConverter(0)
+    AudioConverter.MainLoop()
+
+
