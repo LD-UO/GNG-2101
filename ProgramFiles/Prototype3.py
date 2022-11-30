@@ -1,6 +1,7 @@
 from PyPDF2 import PdfReader
 import wx
 import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog
 import PyPDF2
 import time
@@ -22,6 +23,8 @@ EditPageNum = "1"
 InputFileName = "Default.pdf"
 OutputFileLocation = "C"
 TextFileName = "test.txt"
+SelectedLanguage = 'en'
+SelectedLanguageNumber = 0
 
 
 
@@ -123,12 +126,12 @@ def fromTextEditor(fileName, pagesPerChapter):
 # Description: Convert Strings to multiple audio files
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-SelectedLanguage = 'en'
 
-def audioConvert(arrayOfStrings, outputFileLocation):
+
+def audioConvert(arrayOfStrings, outputFileLocation, SelectedLanguage):
     for chapter in range(len(arrayOfStrings)):
         try:
-            textToSpeech = gTTS(text=arrayOfStrings[chapter], lang='en')
+            textToSpeech = gTTS(text=arrayOfStrings[chapter], lang=SelectedLanguage)
         except:
             print("Please connect to internet to convert to audio")
 
@@ -154,7 +157,7 @@ class MainW(wx.Frame):
         # begin wxGlade: MainW.__init__
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
-        self.SetSize((462, 307))
+        self.SetSize((432, 261))
         self.SetTitle(_("frame"))
 
         self.MainPanel = wx.Panel(self, wx.ID_ANY)
@@ -167,42 +170,28 @@ class MainW(wx.Frame):
         sizer_3 = wx.WrapSizer(wx.HORIZONTAL)
         sizer_2.Add(sizer_3, 0, 0, 0)
 
-        PDFLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Input File:     "))
+        PDFLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Input File (PDF):     "))
         sizer_3.Add(PDFLabel, 1, wx.ALL, 1)
 
         self.SelectFile = wx.Button(self.MainPanel, wx.ID_ANY, _("Select File"))
         sizer_3.Add(self.SelectFile, 0, 0, 0)
 
-        label_3 = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Program Language:  "))
-        sizer_3.Add(label_3, 0, wx.LEFT, 30)
-
-        self.ProgramLanguage = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
-        self.ProgramLanguage.SetSelection(0)
-        sizer_3.Add(self.ProgramLanguage, 0, wx.LEFT, 10)
+        self.SettingsButton = wx.Button(self.MainPanel, wx.ID_ANY, _("Settings"))
+        sizer_3.Add(self.SettingsButton, 0, wx.LEFT, 129)
 
         sizer_4 = wx.BoxSizer(wx.VERTICAL)
         sizer_2.Add(sizer_4, 1, wx.ALL | wx.EXPAND, 0)
 
-        EditLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Edit Output Here:"))
-        sizer_4.Add(EditLabel, 0, wx.BOTTOM | wx.TOP, 7)
-
         sizer_8 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_4.Add(sizer_8, 0, wx.EXPAND, 0)
 
-        self.EditPage = wx.Button(self.MainPanel, wx.ID_ANY, _("Edit Selected Page"))
-        sizer_8.Add(self.EditPage, 0, 0, 0)
-
-        label_4 = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Page Number:  "))
-        sizer_8.Add(label_4, 0, wx.LEFT | wx.RIGHT, 20)
-
-        self.PageNumberSelect = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("1"), _("2"), _("3")])
-        self.PageNumberSelect.SetSelection(0)
-        sizer_8.Add(self.PageNumberSelect, 0, wx.BOTTOM, 10)
+        self.EditPage = wx.Button(self.MainPanel, wx.ID_ANY, _("Edit Selected File"))
+        sizer_8.Add(self.EditPage, 0, wx.BOTTOM | wx.TOP, 20)
 
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
         sizer_2.Add(sizer_5, 0, wx.EXPAND, 0)
 
-        sizer_6 = wx.WrapSizer(wx.HORIZONTAL)
+        sizer_6 = wx.StaticBoxSizer(wx.StaticBox(self.MainPanel, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizer_5.Add(sizer_6, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
 
         OutputLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Choose Output Location:  "))
@@ -210,20 +199,6 @@ class MainW(wx.Frame):
 
         self.SelectFolder = wx.Button(self.MainPanel, wx.ID_ANY, _("Select Folder"))
         sizer_6.Add(self.SelectFolder, 0, 0, 0)
-
-        #label_1 = wx.StaticText(self.MainPanel, wx.ID_ANY, _(OutputFileLocation))
-        #sizer_6.Add(label_1, 0, wx.LEFT, 13)
-
-        sizer_7 = wx.WrapSizer(wx.HORIZONTAL)
-        sizer_5.Add(sizer_7, 1, wx.BOTTOM | wx.EXPAND | wx.TOP, 12)
-
-        OutputLanguage = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Choose Output Language:  "))
-        sizer_7.Add(OutputLanguage, 0, 0, 0)
-
-        self.OutputLanguageChoice = wx.Choice(self.MainPanel, wx.ID_ANY, choices=[_("English"), _("French")])
-        self.OutputLanguageChoice.SetSelection(0)
-        sizer_7.Add(self.OutputLanguageChoice, 0, 0, 0)
-
 
         self.button_2 = wx.Button(self.MainPanel, wx.ID_ANY, _("Convert"))
         sizer_5.Add(self.button_2, 0, wx.EXPAND, 0)
@@ -233,11 +208,9 @@ class MainW(wx.Frame):
         self.Layout()
 
         self.Bind(wx.EVT_BUTTON, self.SelectFilePress, self.SelectFile)
-        self.Bind(wx.EVT_CHOICE, self.ProgLanguageChange, self.ProgramLanguage)
+        self.Bind(wx.EVT_BUTTON, self.SettingsClicked, self.SettingsButton)
         self.Bind(wx.EVT_BUTTON, self.EditPagePressed, self.EditPage)
-        self.Bind(wx.EVT_CHOICE, self.PageSwapped, self.PageNumberSelect)
         self.Bind(wx.EVT_BUTTON, self.SelectFolderPressed, self.SelectFolder)
-        self.Bind(wx.EVT_CHOICE, self.OutputLanguageChange, self.OutputLanguageChoice)
         self.Bind(wx.EVT_BUTTON, self.StartConversion, self.button_2)
         # end wxGlade
 
@@ -247,23 +220,89 @@ class MainW(wx.Frame):
         root = tk.Tk()
         root.withdraw()
         
+        global InputFileName
         InputFileName = filedialog.askopenfilename()
         print(InputFileName)
         toTextEditor(openPDF(InputFileName), TextFileName)
         
+        
+    def SettingsClicked(self, event):  # wxGlade: MainW.<event_handler>
+        #print("Event handler 'SettingsClicked' not implemented!")
+        #event.Skip()
+        class App(tk.Tk):
+            def __init__(self):
+                super().__init__()
+                self.geometry("320x80")
+                self.eval('tk::PlaceWindow . center')
+                self.title('Settings')
 
-    def ProgLanguageChange(self, event):  # wxGlade: MainW.<event_handler>
-        print("Event handler 'ProgLanguageChange' not implemented!")
-        event.Skip()
+                # initialize data
+                self.languages = ('en', 'fr')
+                self.second = ('cheese', 'cat')
+
+                # set up variable
+                self.option_var = tk.StringVar(self)
+                self.option_varr = tk.StringVar(self)
+
+                # create widget
+                self.create_wigets()
+
+            def create_wigets(self):
+                # padding for widgets using the grid layout
+                paddings = {'padx': 5, 'pady': 5}
+
+                # label
+                label = ttk.Label(self,  text='Select output language:')
+                label.grid(column=0, row=0, sticky=tk.W, **paddings)
+
+                # option menu
+                option_menu = ttk.OptionMenu(
+                    self,
+                    self.option_var,
+                    self.languages[SelectedLanguageNumber],
+                    *self.languages,
+                    command=self.option_changed)
+
+                option_menu.grid(column=1, row=0, sticky=tk.W, **paddings)
+                
+                # label
+                labell = ttk.Label(self,  text='Select:')
+                labell.grid(column=0, row=1, sticky=tk.W, **paddings)
+
+                # option menu
+                option_menuu = ttk.OptionMenu(
+                    self,
+                    self.option_varr,
+                    self.second[0],
+                    *self.second,
+                    command=self.option_changedd)
+
+                option_menuu.grid(column=1, row=1, sticky=tk.W, **paddings)
+                
+
+            def option_changed(self, *args):
+                global SelectedLanguage
+                global SelectedLanguageNumber
+                SelectedLanguage = self.option_var.get()
+                if SelectedLanguage == 'en':
+                    SelectedLanguageNumber = 0
+                else:
+                    SelectedLanguageNumber = 1
+                #print(SelectedLanguage)
+            def option_changedd(self, *args):
+                #SelectedLanguage = self.option_var.get()
+                print("Option 2 changed")
+
+
+        if __name__ == "__main__":
+            app = App()
+            app.mainloop()
 
     def EditPagePressed(self, event):  # wxGlade: MainW.<event_handler>
         #print("Event handler 'EditPagePressed' not implemented!")
         #event.Skip()
         os.system("test.txt")
         
-    def PageSwapped(self, event):  # wxGlade: MainW.<event_handler>
-        print("Event handler 'PageSwapped' not implemented!")
-        event.Skip()
 
     def SelectFolderPressed(self, event):  # wxGlade: MainW.<event_handler>
         #print("Event handler 'SelectFolderPressed' not implemented!")
@@ -271,22 +310,20 @@ class MainW(wx.Frame):
         root = tk.Tk()
         root.withdraw()
         
+        global OutputFileLocation
         OutputFileLocation = filedialog.askdirectory()
         #self.label_1.SetLabel(OutputFileLocation)
         #label_1 = wx.StaticText(self.MainPanel, wx.ID_ANY, _(OutputFileLocation))
         #sizer_6.Add(label_1, 0, wx.LEFT, 13)
 
-    def OutputLanguageChange(self, event):  # wxGlade: MainW.<event_handler>
-        #OutputLangNum = OutputLanguageChoice.GetSelection()
-        if OutputLangNum == 0:
-            OutputLang = 'en'
-        else:
-            OutputLang = 'fr'
+
+        
 
     def StartConversion(self, event):  # wxGlade: MainW.<event_handler>
         #print("Event handler 'StartConversion' not implemented!")
         #event.Skip()
-        audioConvert(fromTextEditor(TextFileName, 5), OutputFileLocation)
+        print('Converting to '+SelectedLanguage)
+        audioConvert(fromTextEditor(TextFileName, 5), OutputFileLocation, SelectedLanguage)
         
         
     #-------------------------------------------------------------------------------
