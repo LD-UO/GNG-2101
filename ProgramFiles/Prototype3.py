@@ -104,7 +104,7 @@ def fromTextEditor(fileName, pagesPerChapter):
 
     for i in range(len(stringList)):
         
-        if ((i) % pagesPerChapter == 0):
+        if ((i+1) % pagesPerChapter == 0):
             stringList[i] += "<chapter>"
             
         data2 += stringList[i]
