@@ -25,7 +25,7 @@ OutputFileLocation = "C"
 TextFileName = "TextToEdit.txt"
 SelectedLanguage = 'en'
 SelectedLanguageNumber = 0
-PagesPerChapter = 5
+PagesPerChapter = 4
 
 
 
@@ -136,7 +136,7 @@ def audioConvert(arrayOfStrings, outputFileLocation, SelectedLanguage):
         except:
             print("Please connect to internet to convert to audio")
 
-        textToSpeech.save(outputFileLocation+str(chapter+1)+".mp3")
+        textToSpeech.save(outputFileLocation+"\"+str(chapter+1)+".mp3")
 
 # toTextEditor(openTXT("test"), "outputFileName")
 # audioConvert(fromTextEditor("outputFileName", 5), "outputAudioFile")
@@ -292,7 +292,8 @@ class MainW(wx.Frame):
                 #print(SelectedLanguage)
             def option_changedd(self, *args):
                 #SelectedLanguage = self.option_var.get()
-                print("Option 2 changed")
+                global PagesPerChapter
+                PagesPerChapter = self.option_varr.get()+1
 
 
         if __name__ == "__main__":
