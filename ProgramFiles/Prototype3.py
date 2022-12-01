@@ -103,11 +103,10 @@ def fromTextEditor(fileName, pagesPerChapter):
     data2 = ""
 
     for i in range(len(stringList)):
-        print((i) % pagesPerChapter)
-        print(pagesPerChapter)
+        
         if ((i) % pagesPerChapter == 0):
             stringList[i] += "<chapter>"
-            print(stringList[i])
+            
         data2 += stringList[i]
 
     # <chapter> is used to denote end of chapters
@@ -116,7 +115,7 @@ def fromTextEditor(fileName, pagesPerChapter):
     for i in stringList2:
         i.strip()
 
-    return stringList2
+    return stringList2[:-1]
 
 # Convert array of strings to mp3
 
@@ -130,10 +129,8 @@ def fromTextEditor(fileName, pagesPerChapter):
 
 def audioConvert(arrayOfStrings, outputFileLocation, SelectedLanguage):
     for chapter in range(len(arrayOfStrings)):
-        try:
+        if(any(c.isalpha() for c in arrayOfStrings[chapter])):
             textToSpeech = gTTS(text=arrayOfStrings[chapter], lang=SelectedLanguage)
-        except:
-            print("Please connect to internet to convert to audio")
 
         textToSpeech.save(outputFileLocation+"\\"+str(chapter+1)+".mp3")
 
@@ -292,7 +289,7 @@ class MainW(wx.Frame):
             def option_changedd(self, *args):
                 #SelectedLanguage = self.option_var.get()
                 global PagesPerChapter
-                PagesPerChapter = int(self.option_varr.get())+(1)
+                PagesPerChapter = int(self.option_varr.get())
 
 
         if __name__ == "__main__":
