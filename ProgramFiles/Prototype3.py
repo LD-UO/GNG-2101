@@ -136,7 +136,7 @@ def audioConvert(arrayOfStrings, outputFileLocation, SelectedLanguage):
         except:
             print("Please connect to internet to convert to audio")
 
-        textToSpeech.save(outputFileLocation+"\"+str(chapter+1)+".mp3")
+        textToSpeech.save(outputFileLocation+"\\"+str(chapter+1)+".mp3")
 
 # toTextEditor(openTXT("test"), "outputFileName")
 # audioConvert(fromTextEditor("outputFileName", 5), "outputAudioFile")
@@ -168,7 +168,7 @@ class MainW(wx.Frame):
         sizer_2 = wx.BoxSizer(wx.VERTICAL)
         sizer_1.Add(sizer_2, 1, wx.ALL | wx.EXPAND, 15)
 
-        sizer_3 = wx.WrapSizer(wx.HORIZONTAL)
+        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self.MainPanel, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizer_2.Add(sizer_3, 0, 0, 0)
 
         PDFLabel = wx.StaticText(self.MainPanel, wx.ID_ANY, _("Input File (PDF):     "))
@@ -183,11 +183,11 @@ class MainW(wx.Frame):
         sizer_4 = wx.BoxSizer(wx.VERTICAL)
         sizer_2.Add(sizer_4, 1, wx.ALL | wx.EXPAND, 0)
 
-        sizer_8 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_8 = wx.GridBagSizer(0, 0)
         sizer_4.Add(sizer_8, 0, wx.EXPAND, 0)
 
         self.EditPage = wx.Button(self.MainPanel, wx.ID_ANY, _("Edit Selected File"))
-        sizer_8.Add(self.EditPage, 0, wx.BOTTOM | wx.TOP, 20)
+        sizer_8.Add(self.EditPage, (0, 0), (1, 1), wx.BOTTOM | wx.TOP, 20)
 
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
         sizer_2.Add(sizer_5, 0, wx.EXPAND, 0)
@@ -325,7 +325,7 @@ class MainW(wx.Frame):
         #print("Event handler 'StartConversion' not implemented!")
         #event.Skip()
         print('Converting to '+SelectedLanguage)
-        audioConvert(fromTextEditor(TextFileName, 5), OutputFileLocation, SelectedLanguage)
+        audioConvert(fromTextEditor(TextFileName, PagesPerChapter), OutputFileLocation, SelectedLanguage)
         
         
     #-------------------------------------------------------------------------------
