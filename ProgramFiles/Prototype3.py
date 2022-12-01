@@ -22,9 +22,10 @@ OutputLang = 'en'
 EditPageNum = "1"
 InputFileName = "Default.pdf"
 OutputFileLocation = "C"
-TextFileName = "test.txt"
+TextFileName = "TextToEdit.txt"
 SelectedLanguage = 'en'
 SelectedLanguageNumber = 0
+PagesPerChapter = 5
 
 
 
@@ -158,7 +159,7 @@ class MainW(wx.Frame):
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((432, 261))
-        self.SetTitle(_("frame"))
+        self.SetTitle(_("PDFtoMP3"))
 
         self.MainPanel = wx.Panel(self, wx.ID_ANY)
 
@@ -238,7 +239,7 @@ class MainW(wx.Frame):
 
                 # initialize data
                 self.languages = ('en', 'fr')
-                self.second = ('cheese', 'cat')
+                self.second = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10')
 
                 # set up variable
                 self.option_var = tk.StringVar(self)
@@ -266,14 +267,14 @@ class MainW(wx.Frame):
                 option_menu.grid(column=1, row=0, sticky=tk.W, **paddings)
                 
                 # label
-                labell = ttk.Label(self,  text='Select:')
+                labell = ttk.Label(self,  text='Pages per Audio File:')
                 labell.grid(column=0, row=1, sticky=tk.W, **paddings)
-
+                global PagesPerChapter
                 # option menu
                 option_menuu = ttk.OptionMenu(
                     self,
                     self.option_varr,
-                    self.second[0],
+                    self.second[PagesPerChapter],
                     *self.second,
                     command=self.option_changedd)
 
@@ -301,7 +302,7 @@ class MainW(wx.Frame):
     def EditPagePressed(self, event):  # wxGlade: MainW.<event_handler>
         #print("Event handler 'EditPagePressed' not implemented!")
         #event.Skip()
-        os.system("test.txt")
+        os.popen(TextFileName)
         
 
     def SelectFolderPressed(self, event):  # wxGlade: MainW.<event_handler>
