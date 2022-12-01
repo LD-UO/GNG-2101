@@ -1,9 +1,0 @@
-********************************************** DO NOT REMOVE THIS HEADER **************************************************
-You may use the service and the contents contained in these services for your own individual non-commercial purpose only.
-Any other use, is strictly prohibited without the permission of the work's  publisher.
-Vous pouvez utiliser le service et le contenu de ces services à des fins personnelles et non commerciales uniquement.
-Toute autre utilisation est strictement interdite sans l'autorisation de l'éditeur.
-****************************************************************************************************************<chapter>
-Test1 
-  <page>Test2 
-  <page>Test3 <page>

@@ -15,13 +15,15 @@ import os.path
 import gettext
 # end wxGlade
 
+from pathlib import Path
+
 # setupvalues
 ProgLang = "English"
 OutputLangNum = 0
 OutputLang = 'en'  
 EditPageNum = "1"
 InputFileName = "Default.pdf"
-OutputFileLocation = "C"
+OutputFileLocation = str(Path.home() / "Downloads")
 TextFileName = "TextToEdit.txt"
 SelectedLanguage = 'en'
 SelectedLanguageNumber = 0
@@ -219,8 +221,10 @@ class MainW(wx.Frame):
         
         global InputFileName
         InputFileName = filedialog.askopenfilename()
-        print(InputFileName)
+        print(InputFileName+" selected.")
         toTextEditor(openPDF(InputFileName), TextFileName)
+        print("Finished importing.")
+        tk.messagebox.showinfo(title="Done", message="Finished Importing.")
         
         
     def SettingsClicked(self, event):  # wxGlade: MainW.<event_handler>
@@ -265,12 +269,11 @@ class MainW(wx.Frame):
                 # label
                 labell = ttk.Label(self,  text='Pages per Audio File:')
                 labell.grid(column=0, row=1, sticky=tk.W, **paddings)
-                global PagesPerChapter
                 # option menu
                 option_menuu = ttk.OptionMenu(
                     self,
                     self.option_varr,
-                    self.second[PagesPerChapter],
+                    self.second[PagesPerChapter-1],
                     *self.second,
                     command=self.option_changedd)
 
@@ -320,9 +323,15 @@ class MainW(wx.Frame):
     def StartConversion(self, event):  # wxGlade: MainW.<event_handler>
         #print("Event handler 'StartConversion' not implemented!")
         #event.Skip()
-        print('Converting to '+SelectedLanguage)
-        audioConvert(fromTextEditor(TextFileName, PagesPerChapter), OutputFileLocation, SelectedLanguage)
-        
+        global InputFileName
+        if (InputFileName != "Default.pdf"):
+            print('Converting to '+SelectedLanguage+'.')
+            audioConvert(fromTextEditor(TextFileName, PagesPerChapter), OutputFileLocation, SelectedLanguage)
+            print('Converted! Check your output location for the MP3. (Default is Downloads)')
+        else:
+            print("File not selected.")
+            tk.messagebox.showerror(title="Error", message="File not selected. Please select a PDF.")
+            
         
     #-------------------------------------------------------------------------------
 
