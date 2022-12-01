@@ -80,10 +80,10 @@ def toTextEditor(arrayOfPages, outputFileLocation):
                + "Any other use, is strictly prohibited without the permission of the work's  publisher.\n"
                + "Vous pouvez utiliser le service et le contenu de ces services à des fins personnelles et non commerciales uniquement.\n"
                + "Toute autre utilisation est strictement interdite sans l'autorisation de l'éditeur.\n"
-               + "****************************************************************************************************************<chapter>\n")
+               + "****************************************************************************************************************<page>\n")
     for page in arrayOfPages:
         try:
-            file.write(page+"<page>")
+            file.write(page+"<page>\n")
         except:
             continue
 # Convert edited text to array of strings
@@ -97,27 +97,26 @@ def toTextEditor(arrayOfPages, outputFileLocation):
 
 def fromTextEditor(fileName, pagesPerChapter):
     data = openTXT(fileName)
-
+    
     stringList = data[0].split("<page>")
+    stringList = stringList[1:-1]
     data2 = ""
 
     for i in range(len(stringList)):
+        print((i) % pagesPerChapter)
+        print(pagesPerChapter)
         if ((i) % pagesPerChapter == 0):
             stringList[i] += "<chapter>"
+            print(stringList[i])
         data2 += stringList[i]
 
     # <chapter> is used to denote end of chapters
-
     stringList2 = data2.split("<chapter>")
-
-    while stringList2.count(""):
-        stringList2.remove("")
-    # print(stringList2)
 
     for i in stringList2:
         i.strip()
 
-    return stringList2[1:]
+    return stringList2
 
 # Convert array of strings to mp3
 
@@ -293,7 +292,7 @@ class MainW(wx.Frame):
             def option_changedd(self, *args):
                 #SelectedLanguage = self.option_var.get()
                 global PagesPerChapter
-                PagesPerChapter = self.option_varr.get()+1
+                PagesPerChapter = int(self.option_varr.get())+(1)
 
 
         if __name__ == "__main__":
